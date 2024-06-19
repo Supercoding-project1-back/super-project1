@@ -1,6 +1,6 @@
 package com.example.superproject1.post.controller;
 
-import com.example.superproject1.post.Entity.Post;
+import com.example.superproject1.post.Post;
 import com.example.superproject1.post.dto.*;
 import com.example.superproject1.post.repository.PostRepository;
 import com.example.superproject1.post.service.PostService;
