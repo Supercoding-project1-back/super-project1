@@ -15,7 +15,7 @@ public class LikeController {
     // 좋아요 추가 API
     @PostMapping
     public ResponseEntity like(@RequestBody LikeDto.Post post) {
-        Like like = likeService.createLike(post.getPost_id(), post.getUser_id());
+        Like like = likeService.createLike(post.getUser_id(), post.getPost_id());
         LikeDto.LikeResponse response = likeMapper.likeToLikeResponse(like);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

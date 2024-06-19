@@ -19,7 +19,7 @@ public class LikeDto {
     @Setter
     @AllArgsConstructor
     public static class MessageResponse {
-        private int message;
+        private String message;
     }
 
     @Getter
