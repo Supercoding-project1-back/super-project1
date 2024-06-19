@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 public class LikeDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    public class Post {
+    public static class Post {
         private int user_id;
         private int post_id;
     }
@@ -17,14 +18,14 @@ public class LikeDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    public class MessageResponse {
+    public static class MessageResponse {
         private int message;
     }
 
     @Getter
     @Setter
     @AllArgsConstructor
-    public class LikeResponse {
+    public static class LikeResponse {
         private int user_id;
         private int post_id;
     }
