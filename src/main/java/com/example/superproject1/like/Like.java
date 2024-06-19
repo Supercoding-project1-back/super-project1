@@ -3,12 +3,14 @@ package com.example.superproject1.like;
 import com.example.superproject1.post.Post;
 import com.example.superproject1.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity(name = "likes")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
