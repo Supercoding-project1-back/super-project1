@@ -1,6 +1,6 @@
 package com.example.superproject1.post.service;
 
-import com.example.superproject1.post.Entity.Post;
+import com.example.superproject1.post.Post;
 import com.example.superproject1.post.dto.PostCreateRequestDTO;
 import com.example.superproject1.post.dto.PostListResponseDTO;
 import com.example.superproject1.post.dto.PostResponseDTO;
@@ -71,5 +71,11 @@ public class PostService {
             postResponseDTO.setAuthor(post.getAuthor());
             return postResponseDTO;
         }).collect(Collectors.toList()));
+    }
+
+    // postId로 post 찾기
+    public Post findById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException("해당하는 Id가 없습니다."));
     }
 }
