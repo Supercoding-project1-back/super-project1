@@ -51,4 +51,10 @@ public class UserService {
 
         return Optional.empty();
     }
+
+    // userId로 user 조회
+    public User findById(long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("해당하는 userId가 없습니다."));
+    }
 }
