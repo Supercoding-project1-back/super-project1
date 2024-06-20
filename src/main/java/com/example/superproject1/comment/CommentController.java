@@ -2,6 +2,7 @@ package com.example.superproject1.comment;
 
 import com.example.superproject1.comment.dto.CommentCreateRequest;
 import com.example.superproject1.comment.dto.CommentUpdateRequest;
+import com.example.superproject1.comment.dto.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +18,15 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping
-    public Map<String, List<Comment>> getAllComments() {
-        List<Comment> comments = commentService.getAllComments();
-        Map<String, List<Comment>> response = new HashMap<>();
+    public Map<String, List<ResponseDTO>> getAllComments() {
+        List<ResponseDTO> comments = commentService.getAllComments();
+        Map<String, List<ResponseDTO>> response = new HashMap<>();
         response.put("comments", comments);
         return response;
     }
 
     @GetMapping("/{id}")
-    public Optional<Comment> getCommentById(@PathVariable Long id) {
+    public Optional<ResponseDTO> getCommentById(@PathVariable Long id) {
         return commentService.getCommentById(id);
     }
 

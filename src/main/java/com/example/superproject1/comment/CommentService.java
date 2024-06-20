@@ -1,5 +1,6 @@
 package com.example.superproject1.comment;
 
+import com.example.superproject1.comment.dto.ResponseDTO;
 import com.example.superproject1.comment.dto.CommentCreateRequest;
 import com.example.superproject1.comment.dto.CommentUpdateRequest;
 import com.example.superproject1.post.Post;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -28,6 +30,7 @@ public class CommentService {
             Post post = optionalPost.get();
 
             Comment comment = Comment.builder()
+                    .title(request.getTitle())
                     .content(request.getContent())
                     .author(request.getAuthor())
                     .post(post)
@@ -42,12 +45,14 @@ public class CommentService {
         }
     }
 
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
+    public List<ResponseDTO> getAllComments() {
+        return commentRepository.findAll().stream()
+                .map(ResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Comment> getCommentById(Long id) {
-        return commentRepository.findById(id);
+    public Optional<ResponseDTO> getCommentById(Long id) {
+        return commentRepository.findById(id).map(ResponseDTO::new);
     }
 
     @Transactional
@@ -56,6 +61,7 @@ public class CommentService {
 
         if (optionalComment.isPresent()) {
             Comment comment = optionalComment.get();
+            comment.setTitle(request.getTitle());
             comment.setContent(request.getContent());
             commentRepository.save(comment);
             return true;
