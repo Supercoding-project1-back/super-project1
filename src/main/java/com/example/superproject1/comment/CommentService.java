@@ -72,11 +72,10 @@ public class CommentService {
 
     @Transactional
     public Boolean deleteComment(Long id) {
-        try {
+        if (commentRepository.existsById(id)) {
             commentRepository.deleteById(id);
             return true;
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+        } else {
             return false;
         }
     }
