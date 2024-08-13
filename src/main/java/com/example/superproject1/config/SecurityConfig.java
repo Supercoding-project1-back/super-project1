@@ -1,6 +1,5 @@
 package com.example.superproject1.config;
 
-import com.example.superproject1.user.UserAuthArgumentResolver;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
