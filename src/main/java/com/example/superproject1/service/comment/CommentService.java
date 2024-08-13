@@ -1,8 +1,8 @@
 package com.example.superproject1.service.comment;
 
-import com.example.superproject1.web.dto.comment.ResponseDTO;
-import com.example.superproject1.web.dto.comment.CommentCreateRequest;
-import com.example.superproject1.web.dto.comment.CommentUpdateRequest;
+import com.example.superproject1.web.dto.comment.CommentCreateRequestDTO;
+import com.example.superproject1.web.dto.comment.CommentResponseDTO;
+import com.example.superproject1.web.dto.comment.CommentUpdateRequestDTO;
 import com.example.superproject1.repository.post.Post;
 import com.example.superproject1.repository.post.PostRepository;
 import com.example.superproject1.repository.comment.Comment;
@@ -22,55 +22,34 @@ public class CommentService {
     private final PostRepository postRepository;
 
     @Transactional
-    public Boolean createComment(CommentCreateRequest request) {
-        try {
-            Optional<Post> optionalPost = postRepository.findById(request.getPostId());
-            if (!optionalPost.isPresent()) {
-                throw new RuntimeException("게시글을 찾을 수 없습니다.");
-            }
+    public Boolean createComment(CommentCreateRequestDTO request) {
+        Post post = postRepository.findById(request.getPostId())
+                .orElse(null);
 
-            Post post = optionalPost.get();
-
-            Comment comment = Comment.builder()
-                    .title(request.getTitle())
-                    .content(request.getContent())
-                    .author(request.getAuthor())
-                    .post(post)
-                    .build();
-
-            commentRepository.save(comment);
-            return true;
-
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+        if (post == null) {
             return false;
         }
+
+        Comment comment = buildCommentFromRequest(request, post);
+        commentRepository.save(comment);
+        return true;
     }
 
-    public List<ResponseDTO> getAllComments() {
+    public List<CommentResponseDTO> getAllComments() {
         return commentRepository.findAll().stream()
-                .map(ResponseDTO::new)
+                .map(CommentResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
-    public Optional<ResponseDTO> getCommentById(Long id) {
-        return commentRepository.findById(id).map(ResponseDTO::new);
+    public Optional<CommentResponseDTO> getCommentById(Long id) {
+        return commentRepository.findById(id).map(CommentResponseDTO::new);
     }
 
     @Transactional
-    public Boolean updateComment(Long id, CommentUpdateRequest request) {
-        Optional<Comment> optionalComment = commentRepository.findById(id);
-
-        if (optionalComment.isPresent()) {
-
-            Comment comment = optionalComment.get();
-            comment.setTitle(request.getTitle());
-            comment.setContent(request.getContent());
-            commentRepository.save(comment);
-            return true;
-        } else {
-            return false;
-        }
+    public Boolean updateComment(Long id, CommentUpdateRequestDTO request) {
+        return commentRepository.findById(id)
+                .map(comment -> updateAndSaveComment(comment, request))
+                .orElse(false);
     }
 
     @Transactional
@@ -81,5 +60,21 @@ public class CommentService {
         } else {
             return false;
         }
+    }
+
+    private Comment buildCommentFromRequest(CommentCreateRequestDTO request, Post post) {
+        return Comment.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .author(request.getAuthor())
+                .post(post)
+                .build();
+    }
+
+    private boolean updateAndSaveComment(Comment comment, CommentUpdateRequestDTO request) {
+        comment.setTitle(request.getTitle());
+        comment.setContent(request.getContent());
+        commentRepository.save(comment);
+        return true;
     }
 }

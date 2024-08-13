@@ -1,11 +1,9 @@
 package com.example.superproject1.web.dto.comment;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-public class CommentUpdateRequest {
+@Data
+public class CommentUpdateRequestDTO {
     private String title;
     private String content;
 }

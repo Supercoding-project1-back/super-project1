@@ -7,11 +7,11 @@ import lombok.*;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
-@Builder
+@Data
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,12 +26,12 @@ public class Comment {
     @Column(nullable = false)
     private String author;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
     @ManyToOne
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt = new Date();
 
     @PrePersist
     protected void onCreate() {

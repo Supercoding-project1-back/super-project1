@@ -1,25 +1,19 @@
 package com.example.superproject1.web.dto.comment;
 
 import com.example.superproject1.repository.comment.Comment;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-public class ResponseDTO {
+@Data
+public class CommentResponseDTO {
     private Long id;
     private String title;
     private String content;
     private String author;
-    private Long postId;
-    private String createdAt;
 
-    public ResponseDTO(Comment comment) {
+    public CommentResponseDTO(Comment comment) {
         this.id = comment.getId();
         this.title = comment.getTitle();
         this.content = comment.getContent();
         this.author = comment.getAuthor();
-        this.postId = comment.getPost().getId();
-        this.createdAt = comment.getCreatedAt() != null ? comment.getCreatedAt().toString() : null;
     }
 }
